@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Linq;
 using System.Text;
 
 public class CesarModel : PageModel
@@ -15,52 +17,39 @@ public class CesarModel : PageModel
 
     public string MensajeProcesado { get; set; } = "";
 
-    private readonly char[] alfabeto =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Replace("W", "").ToCharArray(); // 25 letras
+    private const string Alfabeto = "ABCDEFGHIJKLMNOPQRSTUVXYZ";
 
     public void OnPost()
     {
-        MensajeProcesado = ProcesarMensaje(MensajeOriginal.ToUpper(), Desplazamiento, Modo);
+        MensajeProcesado = ProcesarMensajeAlternativo(MensajeOriginal.ToUpper(), Desplazamiento, Modo);
     }
 
-    private string ProcesarMensaje(string mensaje, int n, string modo)
+    private string ProcesarMensajeAlternativo(string mensaje, int desplazamiento, string modo)
     {
-        StringBuilder resultado = new StringBuilder();
+        return new string(mensaje.Select(c => ProcesarCaracter(c, desplazamiento, modo)).ToArray());
+    }
 
-        foreach (char c in mensaje)
+    private char ProcesarCaracter(char caracter, int desplazamiento, string modo)
+    {
+        if (!Alfabeto.Contains(caracter))
         {
-            if (char.IsLetter(c) && c != 'W')
-            {
-                int index = Array.IndexOf(alfabeto, c);
-                if (index == -1)
-                {
-                    resultado.Append(c); // letra no incluida, como W
-                    continue;
-                }
-
-                int nuevoIndex;
-                switch (modo)
-                {
-                    case "codificar":
-                        nuevoIndex = (index + n) % alfabeto.Length;
-                        break;
-                    case "decodificar":
-                        nuevoIndex = (index - n + alfabeto.Length) % alfabeto.Length;
-                        break;
-                    default:
-                        nuevoIndex = index;
-                        break;
-                }
-
-                resultado.Append(alfabeto[nuevoIndex]);
-            }
-            else
-            {
-                // espacio u otro símbolo
-                resultado.Append(c);
-            }
+            return caracter; 
         }
 
-        return resultado.ToString();
+        int posicion = Alfabeto.IndexOf(caracter);
+        int nuevaPosicion;
+
+        if (modo == "codificar")
+        {
+            nuevaPosicion = (posicion + desplazamiento) % Alfabeto.Length;
+            if (nuevaPosicion < 0) nuevaPosicion += Alfabeto.Length;
+        }
+        else // decodificar
+        {
+            nuevaPosicion = (posicion - desplazamiento) % Alfabeto.Length;
+            if (nuevaPosicion < 0) nuevaPosicion += Alfabeto.Length;
+        }
+
+        return Alfabeto[nuevaPosicion];
     }
 }

@@ -4,19 +4,60 @@
     ViewData["Title"] = "Evaluación Binomio";
 }
 
-<h2>Evaluación de la expresión (a·x + b·y)^n</h2>
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-success text-white">
+            <h2 class="h4 mb-0">Evaluación de la expresión (a·x + b·y)^n</h2>
+        </div>
 
-<form method="post">
-    <div><label>a:</label><input asp-for="A" type="number" step="any" required /></div>
-    <div><label>b:</label><input asp-for="B" type="number" step="any" required /></div>
-    <div><label>x:</label><input asp-for="X" type="number" step="any" required /></div>
-    <div><label>y:</label><input asp-for="Y" type="number" step="any" required /></div>
-    <div><label>n (entero ≥ 0):</label><input asp-for="N" type="number" min="0" required /></div>
-    <button type="submit">Evaluar</button>
-</form>
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label asp-for="A" class="form-label">Coeficiente a</label>
+                        <input asp-for="A" type="number" step="any" class="form-control" required />
+                        <div class="invalid-feedback">Por favor ingrese un valor para a</div>
+                    </div>
 
-@if (Model.Resultado != null)
-{
-    <h3>Resultado</h3>
-    <p><strong>Valor de la expresión:</strong> @Model.Resultado.Value.ToString("F4")</p>
-}
+                    <div class="col-md-4">
+                        <label asp-for="X" class="form-label">Variable x</label>
+                        <input asp-for="X" type="number" step="any" class="form-control" required />
+                        <div class="invalid-feedback">Por favor ingrese un valor para x</div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="B" class="form-label">Coeficiente b</label>
+                        <input asp-for="B" type="number" step="any" class="form-control" required />
+                        <div class="invalid-feedback">Por favor ingrese un valor para b</div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="Y" class="form-label">Variable y</label>
+                        <input asp-for="Y" type="number" step="any" class="form-control" required />
+                        <div class="invalid-feedback">Por favor ingrese un valor para y</div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="N" class="form-label">Exponente n (entero ≥ 0)</label>
+                        <input asp-for="N" type="number" min="0" class="form-control" required />
+                        <div class="invalid-feedback">Por favor ingrese un entero positivo</div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="bi bi-calculator"></i> Evaluar
+                    </button>
+                </div>
+            </form>
+
+            @if (Model.Resultado != null)
+            {
+                <div class="alert alert-success mt-4">
+                    <h3 class="h5">Resultado</h3>
+                    <p class="mb-0"><strong>Valor de la expresión:</strong> @Model.Resultado.Value.ToString("F4")</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

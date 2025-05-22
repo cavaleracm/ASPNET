@@ -4,29 +4,53 @@
     ViewData["Title"] = "Cifrado César";
 }
 
-<h2>Cifrado y Decodificación César</h2>
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-info text-white">
+            <h2 class="h4 mb-0">Cifrado y Decodificación César</h2>
+        </div>
 
-<form method="post">
-    <div>
-        <label>Mensaje:</label>
-        <input asp-for="MensajeOriginal" required />
-    </div>
-    <div>
-        <label>Desplazamiento (n):</label>
-        <input asp-for="Desplazamiento" type="number" min="1" required />
-    </div>
-    <div>
-        <label>Modo:</label>
-        <select asp-for="Modo">
-            <option value="codificar">Codificar</option>
-            <option value="decodificar">Decodificar</option>
-        </select>
-    </div>
-    <button type="submit">Procesar</button>
-</form>
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label asp-for="MensajeOriginal" class="form-label">Mensaje</label>
+                    <textarea asp-for="MensajeOriginal" class="form-control" rows="3" required></textarea>
+                    <div class="invalid-feedback">Por favor ingrese un mensaje</div>
+                </div>
 
-@if (!string.IsNullOrEmpty(Model.MensajeProcesado))
-{
-    <h3>Resultado</h3>
-    <p><strong>Mensaje Procesado:</strong> @Model.MensajeProcesado</p>
-}
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label asp-for="Desplazamiento" class="form-label">Desplazamiento (n)</label>
+                        <input asp-for="Desplazamiento" type="number" min="1" class="form-control" required />
+                        <div class="invalid-feedback">Por favor ingrese un valor válido</div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="Modo" class="form-label">Modo</label>
+                        <select asp-for="Modo" class="form-select" required>
+                            <option value="codificar">Codificar</option>
+                            <option value="decodificar">Decodificar</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-info btn-lg">
+                        <i class="bi bi-lock"></i> Procesar
+                    </button>
+                </div>
+            </form>
+
+            @if (!string.IsNullOrEmpty(Model.MensajeProcesado))
+            {
+                <div class="alert alert-info mt-4">
+                    <h3 class="h5">Resultado</h3>
+                    <div class="p-3 bg-light rounded">
+                        <p class="mb-0"><strong>Mensaje Procesado:</strong></p>
+                        <p class="mb-0 font-monospace">@Model.MensajeProcesado</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

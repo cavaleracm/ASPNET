@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
 
 public class IMCModel : PageModel
 {
@@ -13,41 +14,41 @@ public class IMCModel : PageModel
     public string Clasificacion { get; set; } = "";
     public string ImagenRecomendacion { get; set; } = "";
 
+    private readonly List<ClasificacionIMC> _clasificaciones = new()
+    {
+        new(0, 18, "Peso Bajo", "bajo.jpg"),
+        new(18, 25, "Peso Normal", "normal.jpg"),
+        new(25, 27, "Sobrepeso", "sobrepeso.jpg"),
+        new(27, 30, "Obesidad Grado I", "grado1.jpg"),
+        new(30, 40, "Obesidad Grado II", "grado1.jpg"),
+        new(40, double.MaxValue, "Obesidad Grado III", "grado1.jpg")
+    };
+
     public void OnPost()
     {
         if (Altura <= 0) return;
 
-        IMC = Peso / (Altura * Altura);
+        IMC = CalcularIMC(Peso, Altura);
+        var clasificacion = DeterminarClasificacion(IMC);
 
-        if (IMC < 18)
-        {
-            Clasificacion = "Peso Bajo";
-            ImagenRecomendacion = "bajo.jpg";
-        }
-        else if (IMC < 25)
-        {
-            Clasificacion = "Peso Normal";
-            ImagenRecomendacion = "normal.jpg";
-        }
-        else if (IMC < 27)
-        {
-            Clasificacion = "Sobrepeso";
-            ImagenRecomendacion = "sobrepeso.jpg";
-        }
-        else if (IMC < 30)
-        {
-            Clasificacion = "Obesidad Grado I";
-            ImagenRecomendacion = "grado1.jpg";
-        }
-        else if (IMC < 40)
-        {
-            Clasificacion = "Obesidad Grado II";
-            ImagenRecomendacion = "grado1.jpg";
-        }
-        else
-        {
-            Clasificacion = "Obesidad Grado III";
-            ImagenRecomendacion = "grado1.jpg";
-        }
+        Clasificacion = clasificacion.Nombre;
+        ImagenRecomendacion = clasificacion.Imagen;
     }
+
+    private static double CalcularIMC(double peso, double altura)
+    {
+        return peso / (altura * altura);
+    }
+
+    private ClasificacionIMC DeterminarClasificacion(double imc)
+    {
+        foreach (var clasificacion in _clasificaciones)
+        {
+            if (imc < clasificacion.LimiteSuperior)
+                return clasificacion;
+        }
+        return _clasificaciones.Last(); 
+    }
+
+    private record ClasificacionIMC(double LimiteInferior, double LimiteSuperior, string Nombre, string Imagen);
 }

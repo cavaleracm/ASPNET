@@ -14,27 +14,45 @@ public class ArregloModel : PageModel
 
     public void OnGet()
     {
-        // Generar 20 números aleatorios
         Random rnd = new();
-        ArregloOriginal = Enumerable.Range(0, 20).Select(_ => rnd.Next(0, 101)).ToList();
-        ArregloOrdenado = ArregloOriginal.OrderBy(n => n).ToList();
+        for (int i = 0; i < 20; i++)
+        {
+            ArregloOriginal.Add(rnd.Next(0, 101));
+        }
 
-        // Suma y promedio
-        Suma = ArregloOriginal.Sum();
-        Promedio = ArregloOriginal.Average();
+        ArregloOrdenado = new List<int>(ArregloOriginal);
+        ArregloOrdenado.Sort();
 
-        // Moda
-        var grupos = ArregloOriginal.GroupBy(n => n)
-                                    .Select(g => new { Numero = g.Key, Frecuencia = g.Count() })
-                                    .Where(g => g.Frecuencia > 1);
+        Suma = 0;
+        foreach (var num in ArregloOriginal)
+        {
+            Suma += num;
+        }
 
-        int maxFreq = grupos.Any() ? grupos.Max(g => g.Frecuencia) : 0;
-        Moda = grupos.Where(g => g.Frecuencia == maxFreq).Select(g => g.Numero).ToList();
+        Promedio = (double)Suma / ArregloOriginal.Count;
 
-        // Mediana
-        int mid = ArregloOrdenado.Count / 2;
-        Mediana = ArregloOrdenado.Count % 2 == 0
-            ? (ArregloOrdenado[mid - 1] + ArregloOrdenado[mid]) / 2.0
-            : ArregloOrdenado[mid];
+        var frecuencias = new Dictionary<int, int>();
+        foreach (var num in ArregloOriginal)
+        {
+            if (frecuencias.ContainsKey(num))
+                frecuencias[num]++;
+            else
+                frecuencias[num] = 1;
+        }
+
+        int maxFreq = frecuencias.Values.Max();
+        Moda = frecuencias.Where(kv => kv.Value == maxFreq && kv.Value > 1)
+                         .Select(kv => kv.Key)
+                         .ToList();
+
+        int count = ArregloOrdenado.Count;
+        if (count % 2 == 1)
+        {
+            Mediana = ArregloOrdenado[count / 2];
+        }
+        else
+        {
+            Mediana = (ArregloOrdenado[(count / 2) - 1] + ArregloOrdenado[count / 2]) / 2.0;
+        }
     }
 }

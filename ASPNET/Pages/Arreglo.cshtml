@@ -4,18 +4,56 @@
     ViewData["Title"] = "Análisis de Arreglo Aleatorio";
 }
 
-<h2>Arreglo Aleatorio y Estadísticas</h2>
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h4 mb-0">Análisis de Arreglo Aleatorio</h2>
+        </div>
 
-<h3>Arreglo Original:</h3>
-<p>@string.Join(", ", Model.ArregloOriginal)</p>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <h3 class="h5 text-primary">Arreglo Original:</h3>
+                        <div class="p-3 bg-light rounded">
+                            <code>[@string.Join(", ", Model.ArregloOriginal)]</code>
+                        </div>
+                    </div>
+                </div>
 
-<h3>Arreglo Ordenado:</h3>
-<p>@string.Join(", ", Model.ArregloOrdenado)</p>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <h3 class="h5 text-primary">Arreglo Ordenado:</h3>
+                        <div class="p-3 bg-light rounded">
+                            <code>[@string.Join(", ", Model.ArregloOrdenado)]</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<h3>Resultados:</h3>
-<ul>
-    <li><strong>Suma:</strong> @Model.Suma</li>
-    <li><strong>Promedio:</strong> @Model.Promedio.ToString("F2")</li>
-    <li><strong>Moda:</strong> @string.Join(", ", Model.Moda)</li>
-    <li><strong>Mediana:</strong> @Model.Mediana</li>
-</ul>
+            <h3 class="h4 text-primary mb-3">Resultados Estadísticos</h3>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="w-25">Suma</th>
+                            <td>@Model.Suma</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Promedio</th>
+                            <td>@Model.Promedio.ToString("F2")</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Moda</th>
+                            <td>@string.Join(", ", Model.Moda)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Mediana</th>
+                            <td>@Model.Mediana</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
