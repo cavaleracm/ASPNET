@@ -1,0 +1,21 @@
+﻿@page
+@model ArregloModel
+@{
+    ViewData["Title"] = "Análisis de Arreglo Aleatorio";
+}
+
+<h2>Arreglo Aleatorio y Estadísticas</h2>
+
+<h3>Arreglo Original:</h3>
+<p>@string.Join(", ", Model.ArregloOriginal)</p>
+
+<h3>Arreglo Ordenado:</h3>
+<p>@string.Join(", ", Model.ArregloOrdenado)</p>
+
+<h3>Resultados:</h3>
+<ul>
+    <li><strong>Suma:</strong> @Model.Suma</li>
+    <li><strong>Promedio:</strong> @Model.Promedio.ToString("F2")</li>
+    <li><strong>Moda:</strong> @string.Join(", ", Model.Moda)</li>
+    <li><strong>Mediana:</strong> @Model.Mediana</li>
+</ul>
