@@ -1,0 +1,22 @@
+﻿@page
+@model BinomioModel
+@{
+    ViewData["Title"] = "Evaluación Binomio";
+}
+
+<h2>Evaluación de la expresión (a·x + b·y)^n</h2>
+
+<form method="post">
+    <div><label>a:</label><input asp-for="A" type="number" step="any" required /></div>
+    <div><label>b:</label><input asp-for="B" type="number" step="any" required /></div>
+    <div><label>x:</label><input asp-for="X" type="number" step="any" required /></div>
+    <div><label>y:</label><input asp-for="Y" type="number" step="any" required /></div>
+    <div><label>n (entero ≥ 0):</label><input asp-for="N" type="number" min="0" required /></div>
+    <button type="submit">Evaluar</button>
+</form>
+
+@if (Model.Resultado != null)
+{
+    <h3>Resultado</h3>
+    <p><strong>Valor de la expresión:</strong> @Model.Resultado.Value.ToString("F4")</p>
+}

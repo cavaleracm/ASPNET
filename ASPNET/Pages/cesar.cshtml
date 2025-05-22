@@ -1,4 +1,32 @@
 ﻿@page
-@model ASPNET.Pages.cesarModel
+@model CesarModel
 @{
+    ViewData["Title"] = "Cifrado César";
+}
+
+<h2>Cifrado y Decodificación César</h2>
+
+<form method="post">
+    <div>
+        <label>Mensaje:</label>
+        <input asp-for="MensajeOriginal" required />
+    </div>
+    <div>
+        <label>Desplazamiento (n):</label>
+        <input asp-for="Desplazamiento" type="number" min="1" required />
+    </div>
+    <div>
+        <label>Modo:</label>
+        <select asp-for="Modo">
+            <option value="codificar">Codificar</option>
+            <option value="decodificar">Decodificar</option>
+        </select>
+    </div>
+    <button type="submit">Procesar</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.MensajeProcesado))
+{
+    <h3>Resultado</h3>
+    <p><strong>Mensaje Procesado:</strong> @Model.MensajeProcesado</p>
 }

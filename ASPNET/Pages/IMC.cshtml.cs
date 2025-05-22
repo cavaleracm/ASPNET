@@ -27,7 +27,7 @@ public class IMCModel : PageModel
         else if (IMC < 25)
         {
             Clasificacion = "Peso Normal";
-            ImagenRecomendacion = "normal.webp";
+            ImagenRecomendacion = "normal.jpg";
         }
         else if (IMC < 27)
         {
